@@ -35,6 +35,10 @@ jobs:
           name: app-war
           path: target/app.war
 
+      - name: List target directory
+        run: ls -l target/
+          
+
   deploy:
     runs-on: ubuntu-latest
     needs: build

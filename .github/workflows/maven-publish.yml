@@ -65,3 +65,27 @@ jobs:
 
       - name: Upload WAR to server
         run: scp -v demo.war ubuntu@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
+
+
+  test:
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Wait for Service to Start
+        run: sleep 3
+
+      - name: Test GET all values
+        run: curl -f --location 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1' --insecure
+
+      - name: Test GET specific value
+        run: curl -f --location 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/1' --insecure
+
+      - name: Test POST values
+        run: curl -f --location --request POST 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1' --data 'Chile' --insecure
+      
+      - name: Test PUT values
+        run: curl -f --location --request PUT 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/6' --data 'Marruecos' --insecure
+
+      - name: Test DELETE values
+        run: curl -f --location --request DELETE 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/6' --insecure

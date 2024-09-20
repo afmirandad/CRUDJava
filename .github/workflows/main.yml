@@ -32,8 +32,8 @@ jobs:
       - name: Upload WAR file as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: app-war
-          path: target/app.war
+          name: demo-war
+          path: target/demo.war
 
       - name: List target directory
         run: ls -l target/
@@ -47,7 +47,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: app-war
+          name: demo-war
           path: ./ # Download to the current working directory
 
       - name: Set up SSH
@@ -64,4 +64,4 @@ jobs:
         run: ssh-add -l
 
       - name: Upload WAR to server
-        run: scp -v app.war ${{ secrets.UBUNTU_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
+        run: scp -v demo.war ${{ secrets.UBUNTU_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/

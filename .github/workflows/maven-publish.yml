@@ -82,10 +82,10 @@ jobs:
         run: curl -f --location 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/1' --insecure
 
       - name: Test POST values
-        run: curl -f --location --request POST 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1' --data 'Chile' --insecure
+        run: curl -f --location --request POST 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1' --data 'Chile' --insecure --header 'Content-Type: text/plain'
       
       - name: Test PUT values
-        run: curl -f --location --request PUT 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/6' --data 'Marruecos' --insecure
+        run: curl -f --location --request PUT 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/6' --data 'Marruecos' --insecure --header 'Content-Type: text/plain'
 
       - name: Test DELETE values
         run: curl -f --location --request DELETE 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/6' --insecure

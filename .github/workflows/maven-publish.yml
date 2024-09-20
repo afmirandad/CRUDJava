@@ -35,8 +35,8 @@ jobs:
         run: ls -l target
 
   deploy:
-
     runs-on: ubuntu-latest
+    needs: build
 
     steps:
       - name: Download artifact

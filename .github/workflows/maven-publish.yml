@@ -47,7 +47,7 @@ jobs:
           path: ./
 
       - name: List target directory contents
-        run: ls -l .
+        run: ls -l ./
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.4

@@ -86,14 +86,14 @@ jobs:
           curl -f --location --request POST "https://${{ secrets.SERVER_IP }}:8443/demo/api/v1" \
           --data 'Chile' \
           --insecure \
-          --header "Content-Type: text/plain"
+          --header 'Content-Type: text/plain'
       
       - name: Test PUT values
         run: |
-          curl -f --location --request PUT "https://${{ secrets.SERVER_IP }}:8443/demo/api/v1" \
+          curl -f --location --request PUT 'https://3.16.255.166:8443/demo/api/v1/6' \
+          --header 'Content-Type: text/plain' \
           --data 'Marruecos' \
-          --insecure \
-          --header "Content-Type: text/plain"
+          --insecure
 
       - name: Test DELETE values
         run: curl -f --location --request DELETE 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/6' --insecure

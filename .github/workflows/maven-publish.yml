@@ -32,12 +32,19 @@ jobs:
         with:
           name: demo-war
           path: target/demo-1.0.1.war
+      
+      - name: List target directory contents
+        run: ls -l target
 
   deploy:
 
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: List target directory contents
+        run: ls -l target
+        
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:

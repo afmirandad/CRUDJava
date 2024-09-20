@@ -47,7 +47,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: apirest-war
+          name: apirest.war
           path: ./
 
       - name: Set up SSH

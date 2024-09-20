@@ -30,8 +30,38 @@ jobs:
     - name: Build with Maven
       run: mvn clean package -DskipTests
 
-    - name: Upload WAR file
+    - name: Rename WAR file
+      run: mv target/*.war target/apirest.war
+
+    - name: Upload renamed WAR file
       uses: actions/upload-artifact@v3
       with:
         name: springboot-app-war
-        path: target/*.war
+        path: target/apirest.war
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: apirest-war
+          path: ./
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add SSH Key to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+            ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Debug SSH Agent
+        run: ssh-add -l
+
+      - name: Upload WAR to server
+        run: scp -v apirest.war ${{ secrets.UBUNTU_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/

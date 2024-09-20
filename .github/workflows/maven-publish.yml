@@ -30,7 +30,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: demo-war
-        path: target/demo-1.0.1.war
+        path: target/demo.war
 
   deploy:
 

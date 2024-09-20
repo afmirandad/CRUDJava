@@ -42,7 +42,6 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: demo-war
           path: ./
 
       - name: List target directory contents

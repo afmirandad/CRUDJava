@@ -23,13 +23,34 @@ public class hellocontroller {
 	private List<String> items = new ArrayList<String>();
 	
 	public hellocontroller() {
-		items.add("Colombia");
-		items.add("Brasil");
+		items.add("Alemania");
 		items.add("Argentina");
-		items.add("Peru");
-		items.add("Chile");
-		items.add("Venezuela");
-		items.add("Bolivia");
+		items.add("Australia");
+		items.add("Bélgica");
+		items.add("Brasil");
+		items.add("Colombia");
+		items.add("Costa Rica");
+		items.add("Croacia");
+		items.add("Dinamarca");
+		items.add("Egipto");
+		items.add("España");
+		items.add("Francia");
+		items.add("Islandia");
+		items.add("Irán");
+		items.add("Japón");
+		items.add("Marruecos");
+		items.add("México");
+		items.add("Panamá");
+		items.add("Perú");
+		items.add("Polonia");
+		items.add("Portugal");
+		items.add("Rusia");
+		items.add("Senegal");
+		items.add("Serbia");
+		items.add("Suecia");
+		items.add("Suiza");
+		items.add("Túnez");
+		items.add("Uruguay");
 	}
 	
 

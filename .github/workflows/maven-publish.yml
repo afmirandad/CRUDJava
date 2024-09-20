@@ -48,7 +48,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: demo-war
+          path: ./
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.4

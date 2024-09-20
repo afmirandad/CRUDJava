@@ -46,6 +46,9 @@ jobs:
         with:
           path: ./
 
+      - name: List target directory contents
+        run: ls -l .
+
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.4
         with:
@@ -60,4 +63,4 @@ jobs:
         run: ssh-add -l
 
       - name: Upload WAR to server
-        run: scp -v demo-1.0.1.war ${{ secrets.UBUNTU_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
+        run: scp -v ./demo-1.0.1.war ${{ secrets.TOMCAT_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/apache-tomcat-10.1.28/webapps/

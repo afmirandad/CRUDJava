@@ -48,7 +48,7 @@ jobs:
         run: ls -l ./
 
       - name: Rename WAR file
-        run: mv tdemo-1.0.1.war demo.war
+        run: mv demo-1.0.1.war demo.war
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.4

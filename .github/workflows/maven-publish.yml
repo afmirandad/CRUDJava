@@ -63,4 +63,4 @@ jobs:
         run: ssh-add -l
 
       - name: Upload WAR to server
-        run: scp -v ./demo-1.0.1.war ${{ secrets.TOMCAT_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/apache-tomcat-10.1.28/webapps/
+        run: scp -v ./demo-1.0.1.war ${{ secrets.TOMCAT_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/

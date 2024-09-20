@@ -26,7 +26,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Upload WAR file
+    - name: Upload WAR file done
       uses: actions/upload-artifact@v3
       with:
         name: demo-war

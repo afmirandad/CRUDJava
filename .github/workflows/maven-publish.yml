@@ -60,4 +60,4 @@ jobs:
         run: ssh-add -l
 
       - name: Upload WAR to server
-        run: scp -v target/demo-1.0.1.war ${{ secrets.UBUNTU_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
+        run: scp -v demo-1.0.1.war ${{ secrets.UBUNTU_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/

@@ -25,3 +25,35 @@ jobs:
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
+    - name: Upload WAR file
+      uses: actions/upload-artifact@v3
+      with:
+        name: demo-war
+        path: target/demo-1.0.1.war
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: demo-war
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Add SSH Key to known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+    - name: Debug SSH Agent
+      run: ssh-add -l
+
+    - name: Upload WAR to server
+      run: scp -v demo.war ${{ secrets.UBUNTU_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/

@@ -1,4 +1,4 @@
-name: Build WAR
+name: Build and Deploy Spring Boot WAR
 
 on:
   push:
@@ -10,34 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out the code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
 
-    - name: Cache Maven packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
-    - name: Build with Maven
-      run: mvn clean package -DskipTests
+      - name: Build with Maven
+        run: mvn clean package
 
-    - name: Rename WAR file
-      run: mv target/*.war target/apirest.war
-
-    - name: Upload renamed WAR file
-      uses: actions/upload-artifact@v3
-      with:
-        name: springboot-app-war
-        path: target/apirest.war
+      - name: Upload WAR file as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-war
+          path: target/app.war
 
   deploy:
     runs-on: ubuntu-latest
@@ -47,8 +43,8 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: apirest.war
-          path: ./
+          name: app-war
+          path: ./ # Download to the current working directory
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.4
@@ -58,10 +54,10 @@ jobs:
       - name: Add SSH Key to known_hosts
         run: |
           mkdir -p ~/.ssh
-            ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+          ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Debug SSH Agent
         run: ssh-add -l
 
       - name: Upload WAR to server
-        run: scp -v apirest.war ${{ secrets.UBUNTU_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
+        run: scp -v app.war ${{ secrets.UBUNTU_USERNAME }}@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/

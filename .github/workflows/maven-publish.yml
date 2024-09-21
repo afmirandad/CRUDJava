@@ -90,7 +90,7 @@ jobs:
       
       - name: Test PUT values
         run: |
-          curl -f --location --request PUT 'https://3.16.255.166:8443/demo/api/v1/6' \
+          curl -f --location --request PUT 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/6' \
           --header 'Content-Type: text/plain' \
           --data 'Marruecos' \
           --insecure

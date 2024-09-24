@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +22,7 @@ import java.util.Map;
 public class hellocontroller {
 	
 	//Creación de elementos
-	private List<String> items = new ArrayList<String>();
+	private final List<String> items = new ArrayList<>();
 	
 	public hellocontroller() {
 		items.add("Alemania");
@@ -56,49 +58,58 @@ public class hellocontroller {
 
     //Creación de elementos
 	@PostMapping
-	public String addItem(@RequestBody String newItem) {
+	public ResponseEntity<String> addItem(@RequestBody String newItem) {
 		items.add(newItem);
-		return "Item insertado con éxito!!";
+		return new ResponseEntity<>("Item insertado con éxito!!", HttpStatus.CREATED);
 	}
 	
 	//Consulta de elementos
     //1. Cuando un usuario consulta mediante GET la url /api/v1, retornará todos los items de la lista "items"
     @GetMapping
-    public Map<String, Object> getAllItems() {
-    	Map<String, Object> response = new HashMap<>();
-    	response.put("items", items);
-    	response.put("count", items.size());
-        return response;
-    }
+	public ResponseEntity<Map<String, Object>> getAllItems() {
+		Map<String, Object> response = new HashMap<>();
+		response.put("items", items);
+		response.put("count", items.size());
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
     
     @GetMapping("/{index}")
-    public String getItem(@PathVariable int index) {
+    public ResponseEntity<Map<String, String>> getItem(@PathVariable int index) {
+		Map<String, String> response = new HashMap<>();
     	if(index >= 0 && index < items.size()) {
-    		return items.get(index);
+			response.put("item", items.get(index));
+			return new ResponseEntity<>(response, HttpStatus.OK);
     	}else {
-    		return "Item no encontrado!";
+			response.put("error", "Index invalido");
+			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     	}
     }
     
     //Actualización de elementos
     @PutMapping("/{index}")
-    public String modifyItem(@PathVariable int index, @RequestBody String newItem) {
+    public ResponseEntity<Map<String, String>> modifyItem(@PathVariable int index, @RequestBody String newItem) {
+		Map<String, String> response = new HashMap<>();
     	if(index >= 0 && index < items.size()) {
     		items.set(index, newItem);
-    		return "Item actualizado con éxito";
+			response.put("Info", "Item updated successfully");
+			return new ResponseEntity<>(response, HttpStatus.OK);
     	}else {
-    		return "Item no encontrado!";
+			response.put("error", "Index invalido");
+			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     	}
     }
     
     //Eliminación de elementos
     @DeleteMapping("/{index}")
-    public String deleteItem(@PathVariable int index) {
+    public ResponseEntity<Map<String, String>> deleteItem(@PathVariable int index) {
+		Map<String, String> response = new HashMap<>();
     	if(index >= 0 && index < items.size()) {
     		items.remove(index);
-    		return "Item eliminado con éxito";
+			response.put("Info", "Item deleted successfully");
+			return new ResponseEntity<>(response, HttpStatus.OK);
     	}else {
-    		return "Item no encontrado!";
+			response.put("error", "Index invalido");
+			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     	}
     }
     

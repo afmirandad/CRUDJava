@@ -58,9 +58,16 @@ public class hellocontroller {
 
     //Creación de elementos
 	@PostMapping
-	public ResponseEntity<String> addItem(@RequestBody String newItem) {
-		items.add(newItem);
-		return new ResponseEntity<>("Item insertado con éxito!!", HttpStatus.CREATED);
+	public ResponseEntity<Map<String, Object>> addItem(@RequestBody String newItem) {
+		Map<String, Object> response = new HashMap<>();
+		if(items.contains(newItem)) {
+			items.remove(newItem);
+			response.put("status", "Item already exists");
+		}else{
+			items.add(newItem);
+			response.put("status","Item inserted succesfully");
+		}
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 	
 	//Consulta de elementos
@@ -80,7 +87,7 @@ public class hellocontroller {
 			response.put("item", items.get(index));
 			return new ResponseEntity<>(response, HttpStatus.OK);
     	}else {
-			response.put("error", "Index invalido");
+			response.put("error", "Invalid index");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     	}
     }
@@ -94,7 +101,7 @@ public class hellocontroller {
 			response.put("Info", "Item updated successfully");
 			return new ResponseEntity<>(response, HttpStatus.OK);
     	}else {
-			response.put("error", "Index invalido");
+			response.put("error", "Invalid index");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     	}
     }
@@ -108,7 +115,7 @@ public class hellocontroller {
 			response.put("Info", "Item deleted successfully");
 			return new ResponseEntity<>(response, HttpStatus.OK);
     	}else {
-			response.put("error", "Index invalido");
+			response.put("error", "Invalid index");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     	}
     }

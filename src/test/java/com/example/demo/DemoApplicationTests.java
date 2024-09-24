@@ -38,10 +38,18 @@ class DemoApplicationTests {
 	void shouldReturnMessageWhenOneRegistryIsInserted() {
 		ResponseEntity<String> response = restTemplate.postForEntity("/api/v1","San Marino", String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
 		assertThat(response.getBody()).isEqualTo("Item insertado con éxito!!");
 		ResponseEntity<CountryResponse> responseValidation = restTemplate.getForEntity("/api/v1", CountryResponse.class);
 		assertThat(responseValidation.getBody().getItems()).contains("San Marino");
 	}
 
+	@Test
+	@DirtiesContext
+	void shouldReturnMessageWhenOneRegistryIsUpdated() {
+	}
+
+	@Test
+	@DirtiesContext
+	void shouldReturnMessageWhenOneRegistryIsDeleted() {
+	}
 }

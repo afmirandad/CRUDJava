@@ -52,7 +52,7 @@ public class hellocontroller {
 		items.add("Suecia");
 		items.add("Suiza");
 		items.add("Túnez");
-		items.add("Uruguay");
+		items.add("Costa");
 	}
 	
 

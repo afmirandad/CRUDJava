@@ -3,7 +3,7 @@ name: Build and Deploy Spring Boot WAR
 on:
   push:
     branches:
-      - main
+      - usbbogtesting
 
 jobs:
   build:
@@ -50,21 +50,8 @@ jobs:
       - name: Rename WAR file
         run: mv demo-1.0.1.war demo.war
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Add SSH Key to known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
-      - name: Debug SSH Agent
-        run: ssh-add -l
-
       - name: Upload WAR to server
-        run: scp -v demo.war ubuntu@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
+        run: sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -v demo.war sshtesting@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
 
 
   test:

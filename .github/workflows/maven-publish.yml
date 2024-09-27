@@ -53,8 +53,14 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
+      - name: Debug SSH Agent
+        run: ssh-add -l
+
+      - name: Add server to known hosts
+        run: ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
       - name: Upload WAR to server
-        run: sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -v demo.war sshtesting@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
+        run: sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no -v demo.war sshtesting@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
 
 
   test:

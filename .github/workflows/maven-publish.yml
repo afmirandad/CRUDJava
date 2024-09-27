@@ -53,13 +53,13 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: Add SSH Key to known_hosts
+      - name: Add server to known hosts
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Upload WAR to server
-        run: sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no -v demo.war sshtesting@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
+        run: sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no demo.war sshtesting@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
 
 
   test:

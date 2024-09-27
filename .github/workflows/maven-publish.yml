@@ -59,8 +59,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Upload WAR to server
-        run: sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh sshtesting@${{ secrets.SERVER_IP }} "sudo scp demo.war /opt/tomcat/webapps/"
-
+        run: sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no demo.war sshtesting@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps
 
   test:
     runs-on: ubuntu-latest

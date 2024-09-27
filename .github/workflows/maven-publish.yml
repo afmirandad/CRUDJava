@@ -60,7 +60,6 @@ jobs:
 
       - name: Upload WAR to server
         run: |
-            sshpass -p "${{ secrets.SSH_PASSWORD }}" scp demo.war sshtesting@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps
             sshpass -p "${{ secrets.SSH_PASSWORD }}" scp demo.war sshtesting@${{ secrets.SERVER_IP }}:/tmp
 
 

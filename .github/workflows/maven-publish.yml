@@ -50,6 +50,9 @@ jobs:
       - name: Rename WAR file
         run: mv demo-1.0.1.war demo.war
 
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
       - name: Upload WAR to server
         run: sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -v demo.war sshtesting@${{ secrets.SERVER_IP }}:/opt/tomcat/webapps/
 

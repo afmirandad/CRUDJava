@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: demo-war
-          path: target/demo-1.0.1.war
+          path: target/${{ vars.NAME_APP }}-1.0.1.war
       
       - name: List target directory contents
         run: ls -l target
@@ -42,13 +42,13 @@ jobs:
       - name: Download WAR artifact
         uses: actions/download-artifact@v3
         with:
-          name: demo-war
+          name: ${{ vars.NAME_APP }}-war
 
       - name: List target directory contents
         run: ls -l ./
 
       - name: Rename WAR file
-        run: mv demo-1.0.1.war demo.war
+        run: mv ${{ vars.NAME_APP }}-1.0.1.war ${{ vars.NAME_APP }}.war
 
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
@@ -65,7 +65,7 @@ jobs:
           username: sshtesting
           password: ${{ secrets.SSH_PASSWORD }}
           port: 22
-          source: "demo.war"
+          source: ${{ vars.NAME_APP }}.war
           target: "/opt/tomcat/webapps"
 
   test:
@@ -77,24 +77,24 @@ jobs:
         run: sleep 3
 
       - name: Test GET all values
-        run: curl -f --location 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1' --insecure
+        run: curl -f --location 'https://${{ secrets.SERVER_IP }}:8443/${{ vars.NAME_APP }}/api/v1' --insecure
 
       - name: Test GET specific value
-        run: curl -f --location 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/1' --insecure
+        run: curl -f --location 'https://${{ secrets.SERVER_IP }}:8443/${{ vars.NAME_APP }}/api/v1/1' --insecure
 
       - name: Test POST values
         run: |
-          curl -f --location --request POST "https://${{ secrets.SERVER_IP }}:8443/demo/api/v1" \
+          curl -f --location --request POST "https://${{ secrets.SERVER_IP }}:8443/${{ vars.NAME_APP }}/api/v1" \
           --data 'Chile' \
           --insecure \
           --header 'Content-Type: text/plain'
       
       - name: Test PUT values
         run: |
-          curl -f --location --request PUT 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/6' \
+          curl -f --location --request PUT 'https://${{ secrets.SERVER_IP }}:8443/${{ vars.NAME_APP }}/api/v1/6' \
           --header 'Content-Type: text/plain' \
           --data 'Marruecos' \
           --insecure
 
       - name: Test DELETE values
-        run: curl -f --location --request DELETE 'https://${{ secrets.SERVER_IP }}:8443/demo/api/v1/6' --insecure
+        run: curl -f --location --request DELETE 'https://${{ secrets.SERVER_IP }}:8443/${{ vars.NAME_APP }}/api/v1/6' --insecure

@@ -66,7 +66,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: 22
           source: "demo.war"
-          target: ${{ secrets.SERVER_IP }}
+          target: "/opt/tomcat/webapps"
 
   test:
     runs-on: ubuntu-latest
